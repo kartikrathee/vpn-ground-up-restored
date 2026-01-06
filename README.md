@@ -16,3 +16,7 @@ The difference is that the ports of this virtual switch can be connected to devi
 
 A network switch is networking hardware that connects devices on a computer network by using packet switching to receive and forward data to the destination device.
 
+A network switch is a multiport network bridge that uses MAC addresses to forward data at the data link layer (layer 2) of the OSI model. Some switches can also forward data at the network layer (layer 3) by additionally incorporating routing functionality. Such switches are commonly known as layer-3 switches or multilayer switches.
+
+In this project, we focues on layer-2 switchs, which recognize and forward Ethernet frames. When forwarding packets, switches use a forwarding table to look up the port corresponding to the destination address.
+
