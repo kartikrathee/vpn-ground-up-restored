@@ -20,3 +20,8 @@ A network switch is a multiport network bridge that uses MAC addresses to forwar
 
 In this project, we focues on layer-2 switchs, which recognize and forward Ethernet frames. When forwarding packets, switches use a forwarding table to look up the port corresponding to the destination address.
 
+In a switch, the forwarding table is generally called the MAC address table. This table maintains the MAC addresses known in the local network and their corresponding ports. When a switch receives a Ethernet frame, it looks up the port corresponding to the destination MAC address in the forwarding table, and forwards the data frame only to that port, thereby achieving data forwarding within the local area network. If the destination MAC address is not in the table, the switch forwards the Ethernet frame to all ports except the source port so that the target device can respond and update the forwarding table.
+
+In this project, we will write a program called VSwitch as a virtual switch to achieve Ethernet frame exchange function.
+
+### Virtual Network Device: TAP
