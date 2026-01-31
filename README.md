@@ -25,3 +25,8 @@ In a switch, the forwarding table is generally called the MAC address table. Thi
 In this project, we will write a program called VSwitch as a virtual switch to achieve Ethernet frame exchange function.
 
 ### Virtual Network Device: TAP
+
+TAP is a type of virtual network device that can simulate a physical network interface, allowing operating systems and applications to use it like a physical interface. TAP devices are commonly used to create virtual private network (VPN) connections between different computers for secure data transmission over public networks.
+
+The TAP device is implemented in the operating system kernel. It looks like a regular network interface and can be used in applications like a regular physical network card. When packets are sent through the TAP device, they are passed to the TUN/TAP driver in the kernel, which passes the packets to the application. The application can process the packets and pass them to other devices or networks. Similarly, when applications send packets, they are passed to the TUN/TAP driver, which forwards them to the specified target device or network.
+
