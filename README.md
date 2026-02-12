@@ -30,3 +30,8 @@ TAP is a type of virtual network device that can simulate a physical network int
 
 The TAP device is implemented in the operating system kernel. It looks like a regular network interface and can be used in applications like a regular physical network card. When packets are sent through the TAP device, they are passed to the TUN/TAP driver in the kernel, which passes the packets to the application. The application can process the packets and pass them to other devices or networks. Similarly, when applications send packets, they are passed to the TUN/TAP driver, which forwards them to the specified target device or network.
 
+In this project, the TAP device is used to connect client computers and the virtual switch, enabling packet forwarding between client computers and the virtual switch.
+
+## System Architecture
+- Composed of a server (**VSwitch**) and several clients (**VPort**s)
+
