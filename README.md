@@ -35,3 +35,22 @@ In this project, the TAP device is used to connect client computers and the virt
 ## System Architecture
 - Composed of a server (**VSwitch**) and several clients (**VPort**s)
 
+- The server (**VSwitch**) simulates the behavior of a physical network switch, providing Ethernet frame exchange service for each computers connected to the VSwitch by VPorts.
+  - Maintains a MAC table
+    |MAC|VPort|
+    |--|--|
+    11:11:11:11:11:11 | VPort-1
+    aa:aa:aa:aa:aa:aa | VPort-a
+  - Implements Ethernet frame exchange service based on the MAC table
+
+- The client (**VPort**) simulates the behavior of a physical switch port, responsible for relaying Ethernet frames between the switch and the computer.
+  - VPort has two ends.
+    - One end is connected to a computer('s linux kernel) through TAP device.
+    - The other end is connected to the VSwitch through UDP socket.
+  - Responsible for relaying packets between the computer('s linux kernel) and the VSwitch.
+    ```
+    Computer's Linux Kernel <==[TAP]==> (Ethernet Frame) <==[UDP]==> VServer
+    ```
+- Architecture Diagram
+    ```
+        +----------------------------------------------+
