@@ -54,3 +54,12 @@ In this project, the TAP device is used to connect client computers and the virt
 - Architecture Diagram
     ```
         +----------------------------------------------+
+        |                   VSwitch                    |
+        |                                              |
+        |     +----------------+---------------+       |
+        |     |            MAC Table           |       |
+        |     |--------------------------------+       |
+        |     |      MAC       |      VPort    |       |
+        |     |--------------------------------+       |
+        |     | 11:11:11:11:11 |   VClient-1   |       |
+        |     |--------------------------------+       |
