@@ -73,3 +73,22 @@ In this project, the TAP device is used to connect client computers and the virt
             | +------------+ |     | +------------+ |
             | | UDP Socket | |     | | UDP Socket | |
             | +------------+ |     | +------------+ |
+            |       ^        |     |        ^       |
+            |       |        |     |        |       |
+            |(Ethernet Frame)|     |(Ethernet Frame)|
+            |       |        |     |        |       |
+      VPort |       v        |     |        v       | VPort
+            | +------------+ |     | +------------+ |
+            | | TAP Device | |     | | TAP Device | |
+            | +------------+ |     | +------------+ |
+            |       ^        |     |        ^       |
+            +-------|--------+     +--------|-------+
+                    v                       v
+      -------------------------   -------------------------
+      Computer A's Linux Kernel   Computer B's Linux Kernel
+
+    ```
+
+## Source Code
+
+1. [`vswitch.py`](./vswitch.py): code for **VSwitch**
