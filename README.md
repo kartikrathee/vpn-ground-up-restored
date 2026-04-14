@@ -92,3 +92,22 @@ In this project, the TAP device is used to connect client computers and the virt
 ## Source Code
 
 1. [`vswitch.py`](./vswitch.py): code for **VSwitch**
+2. [`vport.c`](./vport.c): code for **VPort**
+
+## How to build
+Just run
+```
+make
+```
+
+## How to deploy
+
+### Environment Preparation
+
+- A server with a public IP for runing VSwitch
+- At least two clients, which run VPort to connect to VSwitch, constructing a Virtual Private Network
+- Assuming the public IP is `SERVER_IP` and the server port is `SERVER_PORT`
+
+### Step 1. Run VSwitch
+On the server with public IP:
+```
