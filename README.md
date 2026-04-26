@@ -111,3 +111,41 @@ make
 ### Step 1. Run VSwitch
 On the server with public IP:
 ```
+python3 vswitch.py ${SERVER_PORT}
+```
+
+### Step 2. Run and Configure VPort on Client-1
+
+- Run VPort
+    ```
+    sudo ./vport ${SERVER_IP} ${SERVER_PORT}
+    ```
+- Configure TAP device
+    ```
+    sudo ip addr add 10.1.1.101/24 dev tapyuan
+    sudo ip link set tapyuan up
+    ```
+
+### Step 3. Run and Configure VPort on Client-2
+
+- Run VPort
+    ```
+    sudo ./vport ${SERVER_IP} ${SERVER_PORT}
+    ```
+- Configure TAP device
+    ```
+    sudo ip addr add 10.1.1.102/24 dev tapyuan
+    sudo ip link set tapyuan up
+    ```
+
+### Step 4. Ping Connectivity Test
+
+- Ping client-2 from client-1
+    ```
+    ping 10.1.1.102
+    ```
+- Ping client-1 from client-2
+    ```
+    ping 10.1.1.101
+    ```
+
