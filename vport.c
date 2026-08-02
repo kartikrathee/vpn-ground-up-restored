@@ -61,3 +61,25 @@ int main(int argc, char const *argv[])
 /**
  * init VPort instance: create TAP device and client socket
  */
+void vport_init(struct vport_t *vport, const char *server_ip_str, int server_port)
+{
+  // alloc tap device
+  char ifname[IFNAMSIZ] = "tapyuan";
+  int tapfd = tap_alloc(ifname);
+  if (tapfd < 0)
+  {
+    ERROR_PRINT_THEN_EXIT("fail to tap_alloc: %s\n", strerror(errno));
+  }
+
+  // create socket
+  int vport_sockfd = socket(AF_INET, SOCK_DGRAM, 0);
+  if (vport_sockfd < 0)
+  {
+    ERROR_PRINT_THEN_EXIT("fail to socket: %s\n", strerror(errno));
+  }
+
+  // setup vswitch info
+  struct sockaddr_in vswitch_addr;
+  memset(&vswitch_addr, 0, sizeof(vswitch_addr));
+  vswitch_addr.sin_family = AF_INET;
+  vswitch_addr.sin_port = htons(server_port);
