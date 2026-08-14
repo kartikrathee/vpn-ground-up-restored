@@ -83,3 +83,24 @@ void vport_init(struct vport_t *vport, const char *server_ip_str, int server_por
   memset(&vswitch_addr, 0, sizeof(vswitch_addr));
   vswitch_addr.sin_family = AF_INET;
   vswitch_addr.sin_port = htons(server_port);
+  if (inet_pton(AF_INET, server_ip_str, &vswitch_addr.sin_addr) != 1)
+  {
+    ERROR_PRINT_THEN_EXIT("fail to inet_pton: %s\n", strerror(errno));
+  }
+
+  vport->tapfd = tapfd;
+  vport->vport_sockfd = vport_sockfd;
+  vport->vswitch_addr = vswitch_addr;
+
+  printf("[VPort] TAP device name: %s, VSwitch: %s:%d\n", ifname, server_ip_str, server_port);
+}
+
+/**
+ * Forward ethernet frame from TAP device to VSwitch
+ */
+void *forward_ether_data_to_vswitch(void *raw_vport)
+{
+  struct vport_t *vport = (struct vport_t *)raw_vport;
+  char ether_data[ETHER_MAX_LEN];
+  while (true)
+  {
