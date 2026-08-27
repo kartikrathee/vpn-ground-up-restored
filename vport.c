@@ -104,3 +104,13 @@ void *forward_ether_data_to_vswitch(void *raw_vport)
   char ether_data[ETHER_MAX_LEN];
   while (true)
   {
+    // read ethernet from tap device
+    int ether_datasz = read(vport->tapfd, ether_data, sizeof(ether_data));
+    if (ether_datasz > 0)
+    {
+      assert(ether_datasz >= 14);
+      const struct ether_header *hdr = (const struct ether_header *)ether_data;
+
+      // forward ethernet frame to VSwitch
+      ssize_t sendsz = sendto(vport->vport_sockfd, ether_data, ether_datasz, 0, (struct sockaddr *)&vport->vswitch_addr, sizeof(vport->vswitch_addr));
+      if (sendsz != ether_datasz)
