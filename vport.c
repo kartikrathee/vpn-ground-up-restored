@@ -114,3 +114,14 @@ void *forward_ether_data_to_vswitch(void *raw_vport)
       // forward ethernet frame to VSwitch
       ssize_t sendsz = sendto(vport->vport_sockfd, ether_data, ether_datasz, 0, (struct sockaddr *)&vport->vswitch_addr, sizeof(vport->vswitch_addr));
       if (sendsz != ether_datasz)
+      {
+        fprintf(stderr, "sendto size mismatch: ether_datasz=%d, sendsz=%d\n", ether_datasz, sendsz);
+      }
+
+      printf("[VPort] Sent to VSwitch:"
+             " dhost<%02x:%02x:%02x:%02x:%02x:%02x>"
+             " shost<%02x:%02x:%02x:%02x:%02x:%02x>"
+             " type<%04x>"
+             " datasz=<%d>\n",
+             hdr->ether_dhost[0], hdr->ether_dhost[1], hdr->ether_dhost[2], hdr->ether_dhost[3], hdr->ether_dhost[4], hdr->ether_dhost[5],
+             hdr->ether_shost[0], hdr->ether_shost[1], hdr->ether_shost[2], hdr->ether_shost[3], hdr->ether_shost[4], hdr->ether_shost[5],
