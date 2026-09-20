@@ -125,3 +125,24 @@ void *forward_ether_data_to_vswitch(void *raw_vport)
              " datasz=<%d>\n",
              hdr->ether_dhost[0], hdr->ether_dhost[1], hdr->ether_dhost[2], hdr->ether_dhost[3], hdr->ether_dhost[4], hdr->ether_dhost[5],
              hdr->ether_shost[0], hdr->ether_shost[1], hdr->ether_shost[2], hdr->ether_shost[3], hdr->ether_shost[4], hdr->ether_shost[5],
+             ntohs(hdr->ether_type),
+             ether_datasz);
+    }
+  }
+}
+
+/**
+ * Forward ethernet frame from VSwitch to TAP device
+ */
+void *forward_ether_data_to_tap(void *raw_vport)
+{
+  struct vport_t *vport = (struct vport_t *)raw_vport;
+  char ether_data[ETHER_MAX_LEN];
+  while (true)
+  {
+    // read ethernet frame from VSwitch
+    socklen_t vswitch_addr = sizeof(vport->vswitch_addr);
+    int ether_datasz = recvfrom(vport->vport_sockfd, ether_data, sizeof(ether_data), 0,
+                                (struct sockaddr *)&vport->vswitch_addr, &vswitch_addr);
+    if (ether_datasz > 0)
+    {
