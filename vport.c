@@ -146,3 +146,14 @@ void *forward_ether_data_to_tap(void *raw_vport)
                                 (struct sockaddr *)&vport->vswitch_addr, &vswitch_addr);
     if (ether_datasz > 0)
     {
+      assert(ether_datasz >= 14);
+      const struct ether_header *hdr = (const struct ether_header *)ether_data;
+
+      // forward ethernet frame to TAP device (Linux network stack)
+      ssize_t sendsz = write(vport->tapfd, ether_data, ether_datasz);
+      if (sendsz != ether_datasz)
+      {
+        fprintf(stderr, "sendto size mismatch: ether_datasz=%d, sendsz=%d\n", ether_datasz, sendsz);
+      }
+
+      printf("[VPort] Forward to TAP device:"
