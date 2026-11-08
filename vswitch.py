@@ -27,3 +27,17 @@ while True:
   # 2. parse ethernet frame
   eth_header = data[:14]
   #    ethernet destination hardware address (MAC)
+  eth_dst = ":".join("{:02x}".format(x) for x in eth_header[0:6])
+  #    ethernet source hardware address (MAC)
+  eth_src = ":".join("{:02x}".format(x) for x in eth_header[6:12])
+
+  print(f"[VSwitch] vport_addr<{vport_addr}> "
+        f"src<{eth_src}> dst<{eth_dst}> datasz<{len(data)}>")
+  
+  # 3. insert/update mac table
+  if (eth_src not in mac_table or mac_table[eth_src] != vport_addr):
+    mac_table[eth_src] = vport_addr
+    print(f"    ARP Cache: {mac_table}")
+
+  # 4. forward ethernet frame
+  #    if dest in mac table, forward ethernet frame to it
