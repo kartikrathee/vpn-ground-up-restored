@@ -41,3 +41,18 @@ while True:
 
   # 4. forward ethernet frame
   #    if dest in mac table, forward ethernet frame to it
+  if eth_dst in mac_table:
+    vserver_sock.sendto(data, mac_table[eth_dst])
+    print(f"    Forwarded to: {eth_dst}")
+  #    if dest is broadcast address, 
+  #    broadcast ethernet frame to every known VPort except source VPort
+  elif eth_dst == "ff:ff:ff:ff:ff:ff":
+    brd_dst_macs = list(mac_table.keys())
+    brd_dst_macs.remove(eth_src)
+    brd_dst_vports = {mac_table[mac] for mac in brd_dst_macs}
+    print(f"    Broadcasted to: {brd_dst_vports}")
+    for brd_dst in brd_dst_vports:
+      vserver_sock.sendto(data, brd_dst)
+  #    otherwise, for simplicity, discard the ethernet frame
+  else:
+    print(f"    Discarded")
